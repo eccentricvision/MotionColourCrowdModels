@@ -42,7 +42,7 @@ end
 %% simulate the trials
 
 % Unflanked Experiment
-for tar=1:EP.NumTarVals
+for tar=1:EP.NumTarVals %NB. here we skip the 361 detectors and jump straight to a Gaussian population response
     %repeat for number of trials and add noise to each point
     temppos = repmat(DrawGaussianWrap(DirAxis,EP.TarDir(1,tar),MP.ExciteSD,MP.TarPeak,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise);
     tempneg = repmat(DrawGaussianWrap(DirAxis,EP.TarDir(1,tar),MP.NegSD,MP.TarNeg,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise);
@@ -62,7 +62,7 @@ for ff=1:EP.NumFlankVals
     
     DirDiffs(ff,:) = (EP.TarDir(2,:)-EP.FlankDirDiffs(ff)); %difference between target and the flanker Dir in this condition (assume identical flankers here)
     
-    for tar=1:EP.NumTarVals
+    for tar=1:EP.NumTarVals %NB. here we skip the 361 detectors and jump straight to a Gaussian population response
         %target and flanker responses - now with target weights (1-WF) as well as flanker weights (WF)
         temppos = (repmat(DrawGaussianWrap(DirAxis,EP.TarDir(2,tar),MP.ExciteSD,MP.TarPeak,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise)).*((1-WFposVal(ff)).*ones(MP.NumTrialsPerStim,numel(DirAxis)));
         tempneg = (repmat(DrawGaussianWrap(DirAxis,EP.TarDir(2,tar),MP.NegSD,MP.TarNeg,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise)).*((1-WFnegVal(ff)).*ones(MP.NumTrialsPerStim,numel(DirAxis)));
