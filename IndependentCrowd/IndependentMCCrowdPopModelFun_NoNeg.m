@@ -63,7 +63,7 @@ ModelColPropCorr = NaN(EP.NumExpts,max(EP.NumConds));
 
 for expt=1:EP.NumExpts %should be 4 experiments (uncrowded + 3 strong/weak crowded combos)
     for cond = 1:EP.NumConds(expt) %should be 1 4 4 4 for each experiment in terms of flanker condition
-        if expt==1% Unflanked Experiment
+        if expt==1% Unflanked Experiment  %NB. here we skip the 361 detectors and jump straight to a Gaussian population response
             %target population for direction
             temppos    = repmat(DrawGaussianWrap(DirAxis,EP.TarDir(expt),MP.DirExciteSD,DirTarPeakTotal,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise);
             tempneg    = repmat(DrawGaussianWrap(DirAxis,EP.TarDir(expt),MP.DirNegSD,DirTarNegTotal,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise);
@@ -84,7 +84,7 @@ for expt=1:EP.NumExpts %should be 4 experiments (uncrowded + 3 strong/weak crowd
             [maxVal,maxInd]     = max(TarRespCol,[],2); %get the maximum response value in each noise-corrupted population response
             ColMax(expt,:,cond) = DirAxis(maxInd)'; %find the x-axis locations of each maximum
             
-        else %Flanked experiment
+        else %Flanked experiment  %NB. here we skip the 361 detectors and jump straight to a Gaussian population response
             %target population for direction
             temppos    = (repmat(DrawGaussianWrap(DirAxis,EP.TarDir(expt),MP.DirExciteSD,DirTarPeakTotal,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise)).*((1-DirWFposVal(expt,cond)).*ones(MP.NumTrialsPerStim,numel(DirAxis)));
             tempneg    = (repmat(DrawGaussianWrap(DirAxis,EP.TarDir(expt),MP.DirNegSD,DirTarNegTotal,0),[MP.NumTrialsPerStim 1]) + (randn(MP.NumTrialsPerStim,numel(DirAxis)).*MP.DirNoise)).*((1-DirWFnegVal(expt,cond)).*ones(MP.NumTrialsPerStim,numel(DirAxis)));
